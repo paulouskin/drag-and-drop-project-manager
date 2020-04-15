@@ -1,17 +1,21 @@
 {
   "name": "typescript",
   "version": "1.0.0",
-  "description": "",
+  "description": "Application to exercise Selenium Actions class",
   "main": "app.js",
   "scripts": {
-    "build": "tsc",
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "lite-server"
+    "start": "webpack-dev-server"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "lite-server": "^2.5.3",
+    "ts-loader": "^6.2.2",
     "typescript": "^3.4.3",
-    "lite-server": "^2.5.3"
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
   }
 }

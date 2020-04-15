@@ -1,10 +1,10 @@
-import { ProjectStatus } from "../model/projectStatus.js";
-import { Project } from "../model/project.js";
-import { projectState } from "../state/projectState.js";
-import { Component } from "./component.js";
-import { DropTarget } from "../model/drag-drop.js";
-import { autobind } from "../decorators/autobind.js";
-import { ProjectItem } from "./projectItem.js";
+import { ProjectStatus } from "../model/projectStatus";
+import { Project } from "../model/project";
+import { projectState } from "../state/projectState";
+import { Component } from "./component";
+import { DropTarget } from "../model/drag-drop";
+import { autobind } from "../decorators/autobind";
+import { ProjectItem } from "./projectItem";
 
 
 

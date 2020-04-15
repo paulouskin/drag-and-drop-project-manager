@@ -1,7 +1,8 @@
-import { projectState } from "../state/projectState.js";
-import { Component } from "./component.js";
-import { autobind } from "../decorators/autobind.js";
+import { projectState } from "../state/projectState";
+import { Component } from "./component";
+import { autobind } from "../decorators/autobind";
 
+type Predicate = (argument: string | number) => boolean;
 
 export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
     titleInputElement: HTMLInputElement;
@@ -24,7 +25,7 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
 
     renderContent() {}
 
-    private validate(properties:(string | number)[], predicates: Array<Function>){
+    private validate(properties:(string | number)[], predicates: Array<Predicate>){
         let isValid = true;
         for(const predicate of predicates){
             isValid = isValid && 
@@ -37,7 +38,7 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
         const title = this.titleInputElement.value;
         const description = this.descriptionInputElement.value;
         const people = +this.peopleInputElement.value;
-        const predicates:Array<Function> = [
+        const predicates:Array<Predicate> = [
             (x:string | number)=>{return x.toString().trim().length !== 0},
             (x:string | number)=>{return typeof x === 'number' ? x > 0 : true},
         (x: string | number) => { return typeof x === 'string' ? x.trim().length > 2 : true },
