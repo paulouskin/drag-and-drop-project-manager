@@ -1,5 +1,6 @@
 import { Project } from "../model/project";
 import { ProjectStatus } from "../model/projectStatus";
+import { ProjectRepository } from "../repositories/ProjectRepository";
 
 type Listener<T> = (projects: T[]) => void;
 
@@ -12,9 +13,9 @@ class State<T> {
 }
 
 export class ProjectState extends State<Project> {
-    private projects: Project[] = [];
+    private projectRepo: ProjectRepository = ProjectRepository.getInstance();
     private static instance: ProjectState;
-
+    
     private constructor() {
         super();
     }
@@ -29,22 +30,19 @@ export class ProjectState extends State<Project> {
 
     addProject(title: string, description: string, numOfPeople: number) {
         const newPrj = new Project(Math.random().toString(), title, description,
-            numOfPeople, ProjectStatus.Active );
-        this.projects.push(newPrj);
+            numOfPeople, ProjectStatus.Active );  
+        this.projectRepo.addProject(newPrj);
         this.notifyListeners();
     }
 
     moveProject(prjId: string, newStatus: ProjectStatus) {
-        const prj = this.projects.find(prj => prj.id === prjId);
-        if (prj && prj.status !== newStatus) {
-            prj.status = newStatus;
-            this.notifyListeners();
-        }
+        this.projectRepo.changeProjectStatus(prjId, newStatus);
+        this.notifyListeners();
     }
 
     private notifyListeners() {
         for (const listener of this.listeners) {
-            listener(this.projects.slice());
+            listener(this.projectRepo.getProjects().slice());
         }
     }
 }

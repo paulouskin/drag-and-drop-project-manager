@@ -5,6 +5,7 @@ import { Component } from "./component";
 import { DropTarget } from "../model/drag-drop";
 import { autobind } from "../decorators/autobind";
 import { ProjectItem } from "./projectItem";
+import { ProjectRepository } from "../repositories/ProjectRepository";
 
 
 
@@ -13,9 +14,10 @@ export class ProjectList extends Component<HTMLDivElement, HTMLElement> implemen
 
     constructor(private type:'active' | 'finished') {
         super('project-list', 'app', false, `${type}-projects`);
-        this.assignedProjects = [];
+        this.assignedProjects = this.populateProjectList();
         this.configure();
         this.renderContent();
+        this.renderProjects();
     }
 
     @autobind
@@ -69,5 +71,12 @@ export class ProjectList extends Component<HTMLDivElement, HTMLElement> implemen
         for (const prj of this.assignedProjects) {
             new ProjectItem(this.element.querySelector('ul')!.id, prj);
         }
+    }
+
+    private populateProjectList(){
+        console.log(`Populating ${this.type} project list`);
+        const projects = ProjectRepository.getInstance().getProjects() as Project[];
+        const listStatus = this.type === 'active' ? ProjectStatus.Active : ProjectStatus.Finished;
+        return projects.filter(prj => {return prj.status === listStatus})
     }
 }
